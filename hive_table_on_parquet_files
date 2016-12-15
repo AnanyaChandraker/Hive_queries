@@ -1,0 +1,31 @@
+How to create hive table obove Parquet file
+
+
+use <database_name>;
+CREATE external TABLE <table_name>
+(
+col1 datatype,
+col2 datatype,
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe' 
+STORED AS INPUTFORMAT 'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat'
+OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
+LOCATION
+'<path of your parquet file / directory containing parquet file>'
+
+Example : 
+use user_profile;
+CREATE external TABLE ext2
+(
+name string
+,age int
+,city string
+,region_1 string
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe' 
+STORED AS INPUTFORMAT 'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat'
+OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
+LOCATION
+'s3://all_user_info/user_data/'
+
+Note: your columns and data type should be exactly same as it in parquet file, otherwise it will give error while reading data
